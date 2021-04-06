@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacancyListItem
 import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacanciesListPresenter
-import org.romeo.headhounterclient.model.entity.VacancyShort
+import org.romeo.headhounterclient.model.entity.vacancy_short.VacancyShort
 import org.romeo.headhounterclient.model.repo.IShortVacanciesRepo
 import javax.inject.Inject
 import javax.inject.Named
@@ -73,6 +73,7 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
         override fun resetItems(items: List<VacancyShort>) {
             this.items.clear()
             this.items.addAll(items)
+            viewState.updateList()
         }
 
         override fun onItemClick(item: IVacancyListItem) {
