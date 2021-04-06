@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/material_on_primary_disabled">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="-16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/logo_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_vacancy_logo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="5px"
+                android:background="#000000"
+                android:padding="1dp"
+                android:src="@drawable/ic_baseline_maximize_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:layout_weight="0"
+                        android:textColor="@color/purple_500"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Intern / Junior System Administrator (Service Desk)" />
+
+                    <TextView
+                        android:id="@+id/area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:textColor="@color/black"
+                        android:textSize="22sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/name"
+                        tools:text="Kiev" />
+
+                    <TextView
+                        android:id="@+id/salary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:textColor="@color/black"
+                        android:textSize="22sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/area"
+                        tools:text="160000$" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/area"
+                        tools:text="<p>Уже более 10 лет мы в компании Alber Blanc успешно занимаемся алгоритмической электронной торговлей на деривативных и валютных рынках мира.</p> <p>Мы разрабатываем и используем собственные торговые стратегии и являемся одним из крупнейших маркетмейкеров на московской бирже, работаем с Чикагской, Лондонской биржой, активно развиваем Индию и Китай.</p> <p>У нас два основных офиса, которые расположены в Санкт-Петербурге и Савоне (Италия), однако, географически мы работаем по всему миру.</p> <p>За всё время существования компании её покинули только три человека, а это значит что мы планируем работать с вами долгие и долгие годы, поддерживая ваш рост и развитие внутри Alber Blanc, но и как следствие именно поэтому мы весьма тщательно относимся к подбору новых сотрудников в нашу команду.</p> <p><em><strong>Кого мы ищем:</strong></em></p> <ul> <li> <p>Образование в топовом ВУЗе - математика, физика, финансы, IT</p> </li> <li> <p>Работоспособность, мультизадачность, умение держать много информации в уме</p> </li> <li> <p>Способность к монотонной работе (при этом оставаясь начеку в поиске новых подходов и идей)</p> </li> <li> <p>Базовое понимание алготрейдинга или интерес к нему</p> </li> </ul> <p><em><strong>Чем предстоит заниматься: </strong></em></p> <ul> <li> <p>Изучение и понимание торгующих алгоритмов и их параметров</p> </li> <li> <p>Оптимизация параметров алгоритмов на системе бэктестинга</p> </li> <li> <p>Мониторинг ситуации на рынке</p> </li> <li> <p>Изучение сделок стратегии</p> </li> <li> <p>Координация с другими членами команды - аналитиками и разработчиками среды</p> </li> <li> <p>Мониторинг работы системы (время исполнения ордера, задержки между компонентами системы и проч)</p> </li> </ul> <p><em><strong>Процесс отбора:</strong></em></p> <ul> <li> <p>Тест по математике (1 час)</p> </li> <li> <p>Первое видео-интервью на проверку соответствия требованиям</p> </li> <li> <p>Второе видео-интервью с потенциальными коллегами</p> </li> <li> <p>Финальное интервью с основателем компании</p> </li> <li> <p>Визит в офис и личное знакомство (СПб или Италия)</p> </li> </ul> <p><em><strong>Что мы предлагаем:</strong></em></p> <ul> <li> <p>Высокую зарплату плюс гибкую бонусную систему (в зависимости от ваших результатов и результатов компании бонусы достигают годовой зарплаты)</p> </li> <li> <p>Оперативный фидбэк от рынка и коллег - вы наблюдаете результаты своей работы в реальном времени</p> </li> <li> <p>Непосредственное влияние на инструменты, которые вы используете</p> </li> <li> <p>Отличная команда из выпускников топ ВУЗов страны</p> </li> <li> <p>Возможность регулярных зарубежных командировок</p> </li> <li> <p>Релокация, страховка, оплата спорта, питание</p> </li> </ul>" />
+
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/apply"
+                        app:layout_constraintTop_toBottomOf="@id/description"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </ScrollView>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
