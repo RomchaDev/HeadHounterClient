@@ -6,7 +6,6 @@ import moxy.MvpPresenter
 import org.romeo.headhounterclient.main.fragments.processVacancy
 import org.romeo.headhounterclient.model.entity.vacancy.vacancy_full.VacancyFull
 import org.romeo.headhounterclient.model.repo.IFullVacanciesRepo
-import org.romeo.headhounterclient.navigation.BackPressedListener
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -23,14 +22,19 @@ class VacancyPresenter(private val vacancyFullUrl: String) :
     @field:Named("MAIN")
     lateinit var mainScheduler: Scheduler
 
+    private lateinit var vacancyFull: VacancyFull
+    private var isBrowserOpened = false
+
     override fun onFirstViewAttach() {
         repo.getVacancyByUrl(vacancyFullUrl)
             .observeOn(mainScheduler)
             .subscribe(
                 { vacancy ->
-                    loadVacancy(vacancy)
+                    vacancyFull = vacancy
+                    loadVacancy(vacancyFull)
                 }, { e ->
                     viewState.showMessage(e.message)
+                    router.exit()
                 }
             )
     }
@@ -47,7 +51,15 @@ class VacancyPresenter(private val vacancyFullUrl: String) :
         viewState.setDescription(vacancy.description)
     }
 
+    override fun onApplyButtonPressed() {
+        viewState.openUrl(vacancyFull.applyAlternateUrl)
+        isBrowserOpened = true
+    }
+
     override fun onBackPressed() {
-        router.exit()
+        if (!isBrowserOpened)
+            router.exit()
+        else
+            isBrowserOpened = false
     }
 }

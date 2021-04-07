@@ -8,4 +8,5 @@ import org.romeo.headhounterclient.main.fragments.AbstractVacancyView
 interface VacancyView : MessageShower, AbstractVacancyView {
     fun setLogoByUrl(url: String)
     fun setDescription(description: String)
+    fun openUrl(url: String)
 }
