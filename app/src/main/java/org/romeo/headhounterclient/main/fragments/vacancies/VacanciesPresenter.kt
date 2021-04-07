@@ -1,13 +1,16 @@
 package org.romeo.headhounterclient.main.fragments.vacancies
 
-import android.util.Log
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
+import org.romeo.headhounterclient.dagger.module.MAIN_SCHEDULER_KEY
+import org.romeo.headhounterclient.main.fragments.processVacancy
 import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacancyListItem
 import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacanciesListPresenter
-import org.romeo.headhounterclient.model.entity.vacancy_short.VacancyShort
+import org.romeo.headhounterclient.model.entity.vacancy.getSnippetText
+import org.romeo.headhounterclient.model.entity.vacancy.vacancy_short.VacancyShort
 import org.romeo.headhounterclient.model.repo.IShortVacanciesRepo
+import org.romeo.headhounterclient.navigation.screens.IScreens
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -20,8 +23,11 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
     lateinit var repo: IShortVacanciesRepo
 
     @Inject
-    @field:Named("MAIN")
+    @field:Named(MAIN_SCHEDULER_KEY)
     lateinit var mainScheduler: Scheduler
+
+    @Inject
+    lateinit var screens: IScreens
 
     override val listPresenter: IVacanciesListPresenter = VacanciesListPresenter()
 
@@ -52,19 +58,10 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
         override fun bind(item: IVacancyListItem, pos: Int) {
             val vacancy = items[pos]
 
-            val salary: String = vacancy.salary?.run {
-                "${(from ?: to)} $currency"
-            } ?: ""
+            val snippet = getSnippetText(vacancy.snippet)
 
-            val snippet = ((vacancy.snippet.responsibility
-                ?: vacancy.snippet.requirement) ?: "")
-                .replace("highlighttext", "b")
+            processVacancy(vacancy, item)
 
-            Log.d(TAG, "bind: \n$snippet")
-
-            item.setName(vacancy.name)
-            item.setSalary(salary)
-            item.setArea(vacancy.area?.name ?: "Remote job")
             item.setSnippet(snippet)
         }
 
@@ -77,11 +74,8 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
         }
 
         override fun onItemClick(item: IVacancyListItem) {
-            viewState.updateList()
+            val url = items[item.pos].url
+            router.navigateTo(screens.getVacancyScreen(url))
         }
-    }
-
-    companion object {
-        private const val TAG = "VACANCIES"
     }
 }

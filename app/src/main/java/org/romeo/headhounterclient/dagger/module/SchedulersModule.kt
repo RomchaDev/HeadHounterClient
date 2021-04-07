@@ -13,3 +13,5 @@ class SchedulersModule {
     @Provides
     fun mainScheduler(): Scheduler = AndroidSchedulers.mainThread()
 }
+
+const val MAIN_SCHEDULER_KEY = "MAIN"

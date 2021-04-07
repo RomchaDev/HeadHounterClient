@@ -1,7 +1,8 @@
 package org.romeo.headhounterclient.model.api
 
 import io.reactivex.rxjava3.core.Single
-import org.romeo.headhounterclient.model.entity.vacancy_short.VacancyShort
+import org.romeo.headhounterclient.model.entity.vacancy.vacancy_full.VacancyFull
+import org.romeo.headhounterclient.model.entity.vacancy.vacancy_short.VacancyShort
 
 class RetrofitWorker(private val service: RetrofitService) : IRetrofitWorker {
     override fun getVacanciesSingleBySearch(search: String): Single<List<VacancyShort>> {
@@ -10,5 +11,8 @@ class RetrofitWorker(private val service: RetrofitService) : IRetrofitWorker {
             it.items
         }
     }
+
+    override fun getVacancySingleByUrl(url: String): Single<VacancyFull> =
+        service.getVacancy(url)
 
 }

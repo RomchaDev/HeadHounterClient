@@ -1,4 +1,4 @@
-package org.romeo.headhounterclient.model.entity
+package org.romeo.headhounterclient.model.entity.vacancy
 
 import com.google.gson.annotations.Expose
 

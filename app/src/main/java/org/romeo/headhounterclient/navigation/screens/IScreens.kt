@@ -4,4 +4,5 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 
 interface IScreens {
     fun getVacanciesScreen(): FragmentScreen
+    fun getVacancyScreen(url: String): FragmentScreen
 }

@@ -61,14 +61,6 @@ class VacanciesFragment :
         val rv = binding!!.recyclerView
         val manager = LinearLayoutManager(context)
         rv.layoutManager = manager
-
-/*        val dividerItemDecoration = DividerItemDecoration(
-            context,
-            manager.orientation
-        )
-
-        rv.addItemDecoration(dividerItemDecoration)*/
-
         rv.adapter = adapter
     }
 
@@ -82,5 +74,9 @@ class VacanciesFragment :
 
     override fun onBackPressed() {
         presenter.onBackPressed()
+    }
+
+    companion object {
+        fun create() = VacanciesFragment()
     }
 }

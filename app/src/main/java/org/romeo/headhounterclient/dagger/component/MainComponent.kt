@@ -7,6 +7,7 @@ import org.romeo.headhounterclient.main.activity.MainActivity
 import org.romeo.headhounterclient.main.activity.MainPresenter
 import org.romeo.headhounterclient.main.fragments.vacancies.IVacanciesPresenter
 import org.romeo.headhounterclient.main.fragments.vacancies.VacanciesPresenter
+import org.romeo.headhounterclient.main.fragments.vacansy.VacancyPresenter
 import javax.inject.Singleton
 
 @Component(
@@ -25,4 +26,5 @@ interface MainComponent {
 
     fun inject(presenter: MainPresenter)
     fun inject(presenter: VacanciesPresenter)
+    fun inject(presenter: VacancyPresenter)
 }
