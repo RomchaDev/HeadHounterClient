@@ -10,5 +10,6 @@ data class VacancyShort(
     @Expose override val area: Area?,
     @Expose override val salary: Salary?,
     @Expose val url: String,
-    @Expose val snippet: Snippet
+    @Expose val snippet: Snippet,
+    var isFavorite: Boolean = false
 ) : AbstractVacancy

@@ -5,8 +5,8 @@ import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import org.romeo.headhounterclient.dagger.module.MAIN_SCHEDULER_KEY
 import org.romeo.headhounterclient.main.fragments.processVacancy
-import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacancyListItem
 import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacanciesListPresenter
+import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacancyListItem
 import org.romeo.headhounterclient.model.entity.vacancy.getSnippetText
 import org.romeo.headhounterclient.model.entity.vacancy.vacancy_short.VacancyShort
 import org.romeo.headhounterclient.model.repo.IShortVacanciesRepo
@@ -36,15 +36,17 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
     }
 
     override fun onSearchPressed(searchText: String): Boolean {
+        viewState.showLoading()
         repo.getVacanciesSingleBySearch(searchText)
             .observeOn(mainScheduler)
             .subscribe({ list ->
                 listPresenter.resetItems(list)
+                viewState.hideLoading()
             }, { e ->
                 e.printStackTrace()
                 viewState.showMessage(e.message)
+                viewState.hideLoading()
             })
-
         return true
     }
 
@@ -71,6 +73,17 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
             this.items.clear()
             this.items.addAll(items)
             viewState.updateList()
+        }
+
+        override fun onStarClicked(item: IVacancyListItem) {
+            val cur = items[item.pos]
+
+            if (cur.isFavorite)
+                item.setStarBorder()
+            else
+                item.setStarFilled()
+
+            cur.isFavorite = !cur.isFavorite
         }
 
         override fun onItemClick(item: IVacancyListItem) {

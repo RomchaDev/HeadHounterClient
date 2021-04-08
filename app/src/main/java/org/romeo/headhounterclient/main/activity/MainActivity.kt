@@ -33,6 +33,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     override fun onResumeFragments() {
         super.onResumeFragments()
+
         navigatorHolder.setNavigator(
             AppNavigator(this, R.id.main_fragment_container)
         )

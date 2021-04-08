@@ -1,10 +1,8 @@
 package org.romeo.headhounterclient.main.fragments.vacancies
 
-import android.R.attr.numColumns
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.ktx.moxyPresenter
 import org.romeo.headhounterclient.R
@@ -74,6 +72,14 @@ class VacanciesFragment :
 
     override fun onBackPressed() {
         presenter.onBackPressed()
+    }
+
+    override fun showLoading() {
+        binding!!.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        binding!!.progressBar.visibility = View.INVISIBLE
     }
 
     companion object {

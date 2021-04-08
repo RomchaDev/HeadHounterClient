@@ -5,4 +5,6 @@ import org.romeo.headhounterclient.main.fragments.AbstractVacancyView
 
 interface IVacancyListItem : BaseListItem, AbstractVacancyView {
     fun setSnippet(text: String)
+    fun setStarFilled()
+    fun setStarBorder()
 }

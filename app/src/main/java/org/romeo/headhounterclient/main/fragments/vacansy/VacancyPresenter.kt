@@ -2,6 +2,8 @@ package org.romeo.headhounterclient.main.fragments.vacansy
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import org.romeo.headhounterclient.main.fragments.processVacancy
 import org.romeo.headhounterclient.model.entity.vacancy.vacancy_full.VacancyFull
@@ -28,15 +30,36 @@ class VacancyPresenter(private val vacancyFullUrl: String) :
     override fun onFirstViewAttach() {
         repo.getVacancyByUrl(vacancyFullUrl)
             .observeOn(mainScheduler)
-            .subscribe(
+            .subscribe(object : SingleObserver<VacancyFull> {
+                override fun onSubscribe(d: Disposable?) {
+                    viewState.showLoading()
+                }
+
+                override fun onSuccess(t: VacancyFull?) {
+                    t?.let { vacancy ->
+                        vacancyFull = vacancy
+                        loadVacancy(vacancyFull)
+                        viewState.hideLoading()
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    viewState.showMessage(e?.message)
+                    viewState.hideLoading()
+                    router.exit()
+                }
+            })
+/*            .subscribe(
                 { vacancy ->
                     vacancyFull = vacancy
                     loadVacancy(vacancyFull)
+                    viewState.hideLoading()
                 }, { e ->
                     viewState.showMessage(e.message)
+                    viewState.hideLoading()
                     router.exit()
                 }
-            )
+            )*/
     }
 
     private fun loadVacancy(vacancy: VacancyFull) {
@@ -57,9 +80,10 @@ class VacancyPresenter(private val vacancyFullUrl: String) :
     }
 
     override fun onBackPressed() {
-        if (!isBrowserOpened)
+/*        if (!isBrowserOpened)
             router.exit()
         else
-            isBrowserOpened = false
+            isBrowserOpened = false*/
+        router.exit()
     }
 }

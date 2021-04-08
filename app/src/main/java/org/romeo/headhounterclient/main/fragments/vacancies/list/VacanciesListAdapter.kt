@@ -4,6 +4,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.romeo.headhounterclient.R
 import org.romeo.headhounterclient.databinding.VacancyListItemBinding
 
 class VacanciesListAdapter(private val presenter: IVacanciesListPresenter) :
@@ -13,6 +14,10 @@ class VacanciesListAdapter(private val presenter: IVacanciesListPresenter) :
         RecyclerView.ViewHolder(binding.root), IVacancyListItem {
 
         init {
+            binding.starImage.setOnClickListener {
+                presenter.onStarClicked(this)
+            }
+
             binding.root.setOnClickListener {
                 presenter.onItemClick(this)
             }
@@ -20,6 +25,14 @@ class VacanciesListAdapter(private val presenter: IVacanciesListPresenter) :
 
         override fun setSnippet(text: String) {
             binding.snippet.text = Html.fromHtml(text)
+        }
+
+        override fun setStarFilled() {
+            binding.starImage.setImageResource(R.drawable.star_filled)
+        }
+
+        override fun setStarBorder() {
+            binding.starImage.setImageResource(R.drawable.star_border)
         }
 
         override fun setSalary(text: String) {

@@ -78,6 +78,18 @@ class VacancyFragment :
         }
     }
 
+    override fun showLoading() {
+        binding?.apply {
+            progressBar.visibility = View.VISIBLE
+        }
+    }
+
+    override fun hideLoading() {
+        binding?.apply {
+            progressBar.visibility = View.INVISIBLE
+        }
+    }
+
     override fun setSalary(text: String) {
         binding?.apply {
             this.salary.text = text

@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardUseCompatPadding="true"
     app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true"
     app:contentPaddingBottom="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,9 +30,9 @@
             android:id="@+id/salary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
             android:textColor="@color/black"
             android:textSize="22sp"
-            android:layout_marginStart="@dimen/margin_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="160000$" />
@@ -41,9 +41,9 @@
             android:id="@+id/area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:layout_marginTop="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name"
             tools:text="Kiev" />
@@ -53,13 +53,20 @@
             android:id="@+id/snippet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:layout_marginTop="@dimen/margin_small"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/area"
             tools:text="Our product is a digital fitness application that
             enables gyms to create a branded and engaging social fitness community. " />
 
+        <ImageView
+            android:id="@+id/star_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/star_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/snippet" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

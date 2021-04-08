@@ -1,8 +1,8 @@
 package org.romeo.headhounterclient.base
 
-import moxy.viewstate.strategy.alias.SingleState
+import moxy.viewstate.strategy.alias.AddToEndSingle
 
-@SingleState
 interface MessageShower {
+    @AddToEndSingle
     fun showMessage(message: String?)
 }
