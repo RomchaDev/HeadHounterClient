@@ -19,7 +19,7 @@ class VacanciesListAdapter(private val presenter: IVacanciesListPresenter) :
             }
 
             binding.root.setOnClickListener {
-                presenter.onItemClick(this)
+                presenter.onClick(this)
             }
         }
 

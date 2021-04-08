@@ -9,6 +9,7 @@ import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacanciesListP
 import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacancyListItem
 import org.romeo.headhounterclient.model.entity.vacancy.getSnippetText
 import org.romeo.headhounterclient.model.entity.vacancy.vacancy_short.VacancyShort
+import org.romeo.headhounterclient.model.repo.IFavoritesRepo
 import org.romeo.headhounterclient.model.repo.IShortVacanciesRepo
 import org.romeo.headhounterclient.navigation.screens.IScreens
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
     lateinit var router: Router
 
     @Inject
-    lateinit var repo: IShortVacanciesRepo
+    lateinit var shortVacanciesRepo: IShortVacanciesRepo
 
     @Inject
     @field:Named(MAIN_SCHEDULER_KEY)
@@ -29,7 +30,36 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
     @Inject
     lateinit var screens: IScreens
 
-    override val listPresenter: IVacanciesListPresenter = VacanciesListPresenter()
+    @Inject
+    lateinit var favoritesRepo: IFavoritesRepo
+
+    override val listPresenter: IVacanciesListPresenter =
+        VacanciesListPresenter().apply {
+            onClick = { item ->
+                val url = items[item.pos].url
+                router.navigateTo(screens.getVacancyScreen(url))
+            }
+
+            onStarClicked = { item ->
+                val cur = items[item.pos]
+
+                if (cur.isFavorite)
+                    favoritesRepo.deleteFromFavorites(cur)
+                        .observeOn(mainScheduler)
+                        .subscribe {
+                            item.setStarBorder()
+                        }
+                else {
+                    favoritesRepo.addToFavorites(cur)
+                        .observeOn(mainScheduler)
+                        .subscribe {
+                            item.setStarFilled()
+                        }
+                }
+
+                cur.isFavorite = !cur.isFavorite
+            }
+        }
 
     override fun onFirstViewAttach() {
         viewState.initList()
@@ -37,7 +67,7 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
 
     override fun onSearchPressed(searchText: String): Boolean {
         viewState.showLoading()
-        repo.getVacanciesSingleBySearch(searchText)
+        shortVacanciesRepo.getVacanciesSingleBySearch(searchText)
             .observeOn(mainScheduler)
             .subscribe({ list ->
                 listPresenter.resetItems(list)
@@ -65,6 +95,9 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
             processVacancy(vacancy, item)
 
             item.setSnippet(snippet)
+
+            if (vacancy.isFavorite) item.setStarFilled()
+            else item.setStarBorder()
         }
 
         override fun getItemsCount() = items.size
@@ -75,20 +108,8 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
             viewState.updateList()
         }
 
-        override fun onStarClicked(item: IVacancyListItem) {
-            val cur = items[item.pos]
+        override lateinit var onStarClicked: (IVacancyListItem) -> Unit
 
-            if (cur.isFavorite)
-                item.setStarBorder()
-            else
-                item.setStarFilled()
-
-            cur.isFavorite = !cur.isFavorite
-        }
-
-        override fun onItemClick(item: IVacancyListItem) {
-            val url = items[item.pos].url
-            router.navigateTo(screens.getVacancyScreen(url))
-        }
+        override lateinit var onClick: (IVacancyListItem) -> Unit
     }
 }

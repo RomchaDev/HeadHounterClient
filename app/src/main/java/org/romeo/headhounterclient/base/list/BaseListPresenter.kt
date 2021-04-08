@@ -10,6 +10,6 @@ interface BaseListPresenter<O, I : BaseListItem> {
     fun resetItems(items: List<O>)
 
     interface BaseItemClickListener<I> {
-        fun onItemClick(item: I)
+        var onClick: (I) -> Unit
     }
 }
