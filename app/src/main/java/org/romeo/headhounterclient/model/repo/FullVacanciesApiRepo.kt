@@ -9,6 +9,6 @@ class FullVacanciesApiRepo(
     private val worker: IRetrofitWorker
 ) : IFullVacanciesRepo {
 
-    override fun getVacancyByUrl(url: String): Single<VacancyFull> =
+    override fun getVacancyFullByUrl(url: String): Single<VacancyFull> =
         worker.getVacancySingleByUrl(url).subscribeOn(Schedulers.io())
 }

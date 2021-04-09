@@ -1,11 +1,14 @@
 package org.romeo.headhounterclient.model.entity.vacancy.vacancy_full
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
+import kotlinx.parcelize.Parcelize
 import org.romeo.headhounterclient.model.entity.vacancy.AbstractVacancy
 import org.romeo.headhounterclient.model.entity.vacancy.Area
 import org.romeo.headhounterclient.model.entity.vacancy.Salary
 import org.romeo.headhounterclient.model.room.entity.RoomVacancyFull
 
+@Parcelize
 data class VacancyFull(
     @Expose override val name: String,
     @Expose override val salary: Salary?,
@@ -16,7 +19,7 @@ data class VacancyFull(
     @Expose val applyAlternateUrl: String,
     //@Expose val alternateUrl: String,
     //@Expose val schedule: Schedule
-): AbstractVacancy {
+) : AbstractVacancy, Parcelable {
     companion object {
         fun fromRoomVacancyFull(vacancy: RoomVacancyFull) =
             with(vacancy) {

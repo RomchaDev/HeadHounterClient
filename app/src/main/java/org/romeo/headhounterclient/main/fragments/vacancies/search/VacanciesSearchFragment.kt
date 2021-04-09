@@ -9,16 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.ktx.moxyPresenter
 import org.romeo.headhounterclient.R
 import org.romeo.headhounterclient.base.fragment.BaseFragment
-import org.romeo.headhounterclient.databinding.FragmentVacanciesBinding
+import org.romeo.headhounterclient.databinding.FragmentVacanciesSearchBinding
 import org.romeo.headhounterclient.main.fragments.vacancies.list.VacanciesListAdapter
 import org.romeo.headhounterclient.navigation.App
 
 
 class VacanciesSearchFragment :
-    BaseFragment<FragmentVacanciesBinding, IVacanciesSearchPresenter>(),
+    BaseFragment<FragmentVacanciesSearchBinding, IVacanciesSearchPresenter>(),
     VacanciesSearchView {
 
-    override var binding: FragmentVacanciesBinding? = null
+    override var binding: FragmentVacanciesSearchBinding? = null
 
     override val presenter: IVacanciesSearchPresenter by moxyPresenter {
         VacanciesSearchPresenter().apply {
@@ -35,20 +35,22 @@ class VacanciesSearchFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View =
-        FragmentVacanciesBinding
+        FragmentVacanciesSearchBinding
             .inflate(inflater)
             .apply { binding = this }
             .root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding?.let { binding ->
-            binding.toolbar.inflateMenu(R.menu.menu_vacancies)
+            binding.toolbar.inflateMenu(R.menu.menu_vacancies_search)
             binding.toolbar.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.item_search ->
                         presenter.onSearchPressed(
                             binding.searchText.text.toString()
                         )
+                    R.id.item_favorites ->
+                        presenter.onFavoritesPressed()
 
                     else -> false
                 }

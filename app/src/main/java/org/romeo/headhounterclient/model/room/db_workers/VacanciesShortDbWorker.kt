@@ -24,4 +24,11 @@ class VacanciesShortDbWorker(
         Single.fromCallable {
             dao.isFavoriteByUrl(vacancy.url)
         }
+
+    override fun getAll(): Single<List<VacancyShort>> =
+        Single.fromCallable {
+            dao.getAll().map {
+                VacancyShort.fromRoomVacancyShort(it)
+            }
+        }
 }

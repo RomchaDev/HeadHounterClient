@@ -14,4 +14,7 @@ interface VacanciesShortDao {
 
     @Query("SELECT isFavorite FROM RoomVacancyShort WHERE url = :url")
     fun isFavoriteByUrl(url: String): Boolean
+
+    @Query("SELECT * FROM RoomVacancyShort")
+    fun getAll(): List<RoomVacancyShort>
 }

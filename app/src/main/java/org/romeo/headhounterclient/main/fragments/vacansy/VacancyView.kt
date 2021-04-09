@@ -1,12 +1,12 @@
 package org.romeo.headhounterclient.main.fragments.vacansy
 
 import moxy.viewstate.strategy.alias.AddToEndSingle
-import org.romeo.headhounterclient.base.ILoadingListener
+import org.romeo.headhounterclient.base.LoadingListener
 import org.romeo.headhounterclient.base.MessageShower
 import org.romeo.headhounterclient.main.fragments.AbstractVacancyView
 
 @AddToEndSingle
-interface VacancyView : MessageShower, AbstractVacancyView, ILoadingListener {
+interface VacancyView : MessageShower, AbstractVacancyView, LoadingListener {
     fun setLogoByUrl(url: String)
     fun setDescription(description: String)
     fun openUrl(url: String)

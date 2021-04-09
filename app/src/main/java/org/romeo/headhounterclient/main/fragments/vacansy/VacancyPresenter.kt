@@ -11,7 +11,7 @@ import org.romeo.headhounterclient.model.repo.IFullVacanciesRepo
 import javax.inject.Inject
 import javax.inject.Named
 
-class VacancyPresenter(private val vacancyFullUrl: String) :
+class VacancyPresenter(private val vacancy: VacancyFull) :
     MvpPresenter<VacancyView>(), IVacancyPresenter {
 
     @Inject
@@ -24,42 +24,10 @@ class VacancyPresenter(private val vacancyFullUrl: String) :
     @field:Named("MAIN")
     lateinit var mainScheduler: Scheduler
 
-    private lateinit var vacancyFull: VacancyFull
     private var isBrowserOpened = false
 
     override fun onFirstViewAttach() {
-        repo.getVacancyByUrl(vacancyFullUrl)
-            .observeOn(mainScheduler)
-            .subscribe(object : SingleObserver<VacancyFull> {
-                override fun onSubscribe(d: Disposable?) {
-                    viewState.showLoading()
-                }
-
-                override fun onSuccess(t: VacancyFull?) {
-                    t?.let { vacancy ->
-                        vacancyFull = vacancy
-                        loadVacancy(vacancyFull)
-                        viewState.hideLoading()
-                    }
-                }
-
-                override fun onError(e: Throwable?) {
-                    viewState.showMessage(e?.message)
-                    viewState.hideLoading()
-                    router.exit()
-                }
-            })
-/*            .subscribe(
-                { vacancy ->
-                    vacancyFull = vacancy
-                    loadVacancy(vacancyFull)
-                    viewState.hideLoading()
-                }, { e ->
-                    viewState.showMessage(e.message)
-                    viewState.hideLoading()
-                    router.exit()
-                }
-            )*/
+        loadVacancy(vacancy)
     }
 
     private fun loadVacancy(vacancy: VacancyFull) {
@@ -75,7 +43,7 @@ class VacancyPresenter(private val vacancyFullUrl: String) :
     }
 
     override fun onApplyButtonPressed() {
-        viewState.openUrl(vacancyFull.applyAlternateUrl)
+        viewState.openUrl(vacancy.applyAlternateUrl)
         isBrowserOpened = true
     }
 

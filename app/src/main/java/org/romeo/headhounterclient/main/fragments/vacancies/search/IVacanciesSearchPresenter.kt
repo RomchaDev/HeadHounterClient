@@ -5,4 +5,5 @@ import org.romeo.headhounterclient.navigation.BackPressedListener
 
 interface IVacanciesSearchPresenter : AbstractVacanciesPresenter, BackPressedListener {
     fun onSearchPressed(searchText: String): Boolean
+    fun onFavoritesPressed(): Boolean
 }

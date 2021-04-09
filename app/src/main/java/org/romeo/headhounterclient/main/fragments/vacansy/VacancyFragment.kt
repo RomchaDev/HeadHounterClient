@@ -12,7 +12,8 @@ import android.widget.Toast
 import moxy.ktx.moxyPresenter
 import org.romeo.headhounterclient.base.fragment.BaseFragment
 import org.romeo.headhounterclient.databinding.FragmentVacancyBinding
-import org.romeo.headhounterclient.main.fragments.VACANCY_FULL_URL_KEY
+import org.romeo.headhounterclient.main.fragments.VACANCY_FULL_KEY
+import org.romeo.headhounterclient.model.entity.vacancy.vacancy_full.VacancyFull
 import org.romeo.headhounterclient.model.image.IImageLoader
 import org.romeo.headhounterclient.navigation.App
 import org.romeo.headhounterclient.navigation.BackPressedListener
@@ -28,8 +29,9 @@ class VacancyFragment :
 
     override val presenter: IVacancyPresenter
             by moxyPresenter {
-                val url = arguments!!.getString(VACANCY_FULL_URL_KEY)!!
-                VacancyPresenter(url).apply {
+                val vacancy = arguments!!
+                    .getParcelable<VacancyFull>(VACANCY_FULL_KEY)!!
+                VacancyPresenter(vacancy).apply {
                     App.instance.mainComponent.inject(this)
                 }
             }
@@ -111,19 +113,19 @@ class VacancyFragment :
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
+    override fun onBackPressed() {
+        presenter.onBackPressed()
+    }
+
     companion object {
-        fun create(vacancyFullUrl: String): VacancyFragment {
+        fun create(vacancyFull: VacancyFull): VacancyFragment {
             val bundle = Bundle()
             val fragment = VacancyFragment()
 
-            bundle.putString(VACANCY_FULL_URL_KEY, vacancyFullUrl)
+            bundle.putParcelable(VACANCY_FULL_KEY, vacancyFull)
             fragment.arguments = bundle
 
             return fragment
         }
-    }
-
-    override fun onBackPressed() {
-        presenter.onBackPressed()
     }
 }

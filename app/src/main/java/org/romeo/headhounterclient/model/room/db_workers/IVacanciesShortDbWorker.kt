@@ -8,4 +8,5 @@ interface IVacanciesShortDbWorker {
     fun saveToDb(item: VacancyShort): Completable
     fun delete(vacancy: VacancyShort): Completable
     fun isFavorite(vacancy: VacancyShort): Single<Boolean>
+    fun getAll(): Single<List<VacancyShort>>
 }

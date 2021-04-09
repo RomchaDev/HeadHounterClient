@@ -1,4 +1,6 @@
 package org.romeo.headhounterclient.main.fragments.vacancies.favorites
 
-interface IVacanciesFavoritesPresenter {
-}
+import org.romeo.headhounterclient.main.fragments.vacancies.AbstractVacanciesPresenter
+import org.romeo.headhounterclient.navigation.BackPressedListener
+
+interface IVacanciesFavoritesPresenter : AbstractVacanciesPresenter, BackPressedListener

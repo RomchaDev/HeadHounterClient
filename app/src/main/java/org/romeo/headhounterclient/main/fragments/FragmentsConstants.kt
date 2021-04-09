@@ -5,7 +5,7 @@ import org.romeo.headhounterclient.model.entity.vacancy.getAreaText
 import org.romeo.headhounterclient.model.entity.vacancy.getSalaryText
 import org.romeo.headhounterclient.model.entity.vacancy.getSnippetText
 
-const val VACANCY_FULL_URL_KEY = "VACANCY_FULL_URL_KEY"
+const val VACANCY_FULL_KEY = "VACANCY_FULL_URL_KEY"
 
 fun processVacancy(
     vacancy: AbstractVacancy,

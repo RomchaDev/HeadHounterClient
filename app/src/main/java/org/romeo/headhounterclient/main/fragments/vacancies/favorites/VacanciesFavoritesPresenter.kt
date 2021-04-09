@@ -1,4 +1,4 @@
-package org.romeo.headhounterclient.main.fragments.vacancies.search
+package org.romeo.headhounterclient.main.fragments.vacancies.favorites
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
@@ -11,19 +11,15 @@ import org.romeo.headhounterclient.main.fragments.vacancies.list.VacanciesListPr
 import org.romeo.headhounterclient.model.entity.vacancy.vacancy_full.VacancyFull
 import org.romeo.headhounterclient.model.entity.vacancy.vacancy_short.VacancyShort
 import org.romeo.headhounterclient.model.repo.IFavoritesRepo
-import org.romeo.headhounterclient.model.repo.IFullVacanciesRepo
-import org.romeo.headhounterclient.model.repo.IShortVacanciesRepo
 import org.romeo.headhounterclient.navigation.screens.IScreens
 import javax.inject.Inject
 import javax.inject.Named
 
-class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacanciesSearchPresenter {
+class VacanciesFavoritesPresenter : MvpPresenter<VacanciesFavoritesView>(),
+    IVacanciesFavoritesPresenter {
 
     @Inject
     lateinit var router: Router
-
-    @Inject
-    lateinit var shortVacanciesRepo: IShortVacanciesRepo
 
     @Inject
     @field:Named(MAIN_SCHEDULER_KEY)
@@ -31,9 +27,6 @@ class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacancies
 
     @Inject
     lateinit var screens: IScreens
-
-    @Inject
-    lateinit var fullRepo: IFullVacanciesRepo
 
     @Inject
     lateinit var favoritesRepo: IFavoritesRepo
@@ -53,6 +46,8 @@ class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacancies
                         .observeOn(mainScheduler)
                         .subscribe {
                             item.setStarBorder()
+                            items.removeAt(item.pos)
+                            viewState.updateList()
                         }
                 else {
                     favoritesRepo.addToFavorites(cur)
@@ -66,8 +61,39 @@ class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacancies
             }
         }
 
+    override fun onFirstViewAttach() {
+        viewState.initList()
+        favoritesRepo.getAllFavoritesShort()
+            .observeOn(mainScheduler)
+            .subscribe(object : SingleObserver<List<VacancyShort>> {
+                override fun onSubscribe(d: Disposable?) {
+                    viewState.showLoading()
+                }
+
+                override fun onSuccess(t: List<VacancyShort>?) {
+                    t?.let { list ->
+                        resetListItems(list)
+                    }
+
+                    viewState.hideLoading()
+                }
+
+                override fun onError(e: Throwable?) {
+                    viewState.showMessage(e?.message)
+                    viewState.hideLoading()
+                }
+
+            })
+    }
+
+    private fun resetListItems(items: List<VacancyShort>) {
+        listPresenter.items.clear()
+        listPresenter.items.addAll(items)
+        viewState.updateList()
+    }
+
     private fun startVacancyFragment(url: String) {
-        fullRepo.getVacancyFullByUrl(url)
+        favoritesRepo.getVacancyFullByUrl(url)
             .observeOn(mainScheduler)
             .subscribe(object : SingleObserver<VacancyFull> {
                 override fun onSubscribe(d: Disposable?) {
@@ -90,40 +116,7 @@ class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacancies
             })
     }
 
-    override fun onFirstViewAttach() {
-        viewState.initList()
-    }
-
-    override fun onSearchPressed(searchText: String): Boolean {
-        viewState.showLoading()
-        shortVacanciesRepo.getVacanciesSingleBySearch(searchText)
-            .observeOn(mainScheduler)
-            .subscribe({ list ->
-                resetListItems(list)
-                viewState.hideLoading()
-            }, { e ->
-                e.printStackTrace()
-                viewState.showMessage(e.message)
-                viewState.hideLoading()
-            })
-        return true
-    }
-
-    override fun onFavoritesPressed(): Boolean {
-        router.navigateTo(
-            screens.getVacanciesFavoritesScreen()
-        )
-
-        return true
-    }
-
     override fun onBackPressed() {
         router.exit()
-    }
-
-    private fun resetListItems(items: List<VacancyShort>) {
-        listPresenter.items.clear()
-        listPresenter.items.addAll(items)
-        viewState.updateList()
     }
 }

@@ -13,7 +13,7 @@ class MainPresenter : MvpPresenter<MainView>(), IMainPresenter {
     lateinit var screens: IScreens
 
     override fun onFirstViewAttach() {
-        router.navigateTo(screens.getVacanciesScreen())
+        router.navigateTo(screens.getVacanciesSearchScreen())
     }
 
     override fun onBackPressed() {
