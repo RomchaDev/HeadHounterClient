@@ -1,13 +1,10 @@
-package org.romeo.headhounterclient.main.fragments.vacancies
+package org.romeo.headhounterclient.main.fragments.vacancies.search
 
-import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 import org.romeo.headhounterclient.base.ILoadingListener
 import org.romeo.headhounterclient.base.MessageShower
+import org.romeo.headhounterclient.base.list.BaseListFragmentView
 import org.romeo.headhounterclient.navigation.BackPressedListener
 
 @AddToEndSingle
-interface VacanciesView : MvpView, MessageShower, BackPressedListener, ILoadingListener {
-    fun initList()
-    fun updateList()
-}
+interface VacanciesSearchView : BaseListFragmentView, MessageShower, BackPressedListener, ILoadingListener

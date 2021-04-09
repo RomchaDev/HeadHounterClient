@@ -1,26 +1,27 @@
-package org.romeo.headhounterclient.main.fragments.vacancies
+package org.romeo.headhounterclient.main.fragments.vacancies.search
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.ktx.moxyPresenter
 import org.romeo.headhounterclient.R
 import org.romeo.headhounterclient.base.fragment.BaseFragment
-import org.romeo.headhounterclient.base.presenter.IFragmentPresenter
 import org.romeo.headhounterclient.databinding.FragmentVacanciesBinding
 import org.romeo.headhounterclient.main.fragments.vacancies.list.VacanciesListAdapter
 import org.romeo.headhounterclient.navigation.App
 
 
-class VacanciesFragment :
-    BaseFragment<FragmentVacanciesBinding, IFragmentPresenter>(),
-    VacanciesView {
+class VacanciesSearchFragment :
+    BaseFragment<FragmentVacanciesBinding, IVacanciesSearchPresenter>(),
+    VacanciesSearchView {
 
     override var binding: FragmentVacanciesBinding? = null
 
-    override val presenter: IVacanciesPresenter by moxyPresenter {
-        VacanciesPresenter().apply {
+    override val presenter: IVacanciesSearchPresenter by moxyPresenter {
+        VacanciesSearchPresenter().apply {
             App.instance.mainComponent.inject(this)
         }
     }
@@ -83,6 +84,6 @@ class VacanciesFragment :
     }
 
     companion object {
-        fun create() = VacanciesFragment()
+        fun create() = VacanciesSearchFragment()
     }
 }

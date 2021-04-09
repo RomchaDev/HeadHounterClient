@@ -1,10 +1,10 @@
-package org.romeo.headhounterclient.main.fragments.vacancies
+package org.romeo.headhounterclient.base.list
 
 import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 
 @AddToEndSingle
-interface AbstractVacanciesView: MvpView {
+interface BaseListFragmentView: MvpView {
     fun initList()
     fun updateList()
 }

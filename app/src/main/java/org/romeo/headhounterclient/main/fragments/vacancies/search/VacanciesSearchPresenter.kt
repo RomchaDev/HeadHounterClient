@@ -1,13 +1,11 @@
-package org.romeo.headhounterclient.main.fragments.vacancies
+package org.romeo.headhounterclient.main.fragments.vacancies.search
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import org.romeo.headhounterclient.dagger.module.MAIN_SCHEDULER_KEY
-import org.romeo.headhounterclient.main.fragments.processVacancy
 import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacanciesListPresenter
-import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacancyListItem
-import org.romeo.headhounterclient.model.entity.vacancy.getSnippetText
+import org.romeo.headhounterclient.main.fragments.vacancies.list.VacanciesListPresenter
 import org.romeo.headhounterclient.model.entity.vacancy.vacancy_short.VacancyShort
 import org.romeo.headhounterclient.model.repo.IFavoritesRepo
 import org.romeo.headhounterclient.model.repo.IShortVacanciesRepo
@@ -15,7 +13,7 @@ import org.romeo.headhounterclient.navigation.screens.IScreens
 import javax.inject.Inject
 import javax.inject.Named
 
-class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
+class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacanciesSearchPresenter {
 
     @Inject
     lateinit var router: Router
@@ -70,7 +68,7 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
         shortVacanciesRepo.getVacanciesSingleBySearch(searchText)
             .observeOn(mainScheduler)
             .subscribe({ list ->
-                listPresenter.resetItems(list)
+                resetListItems(list)
                 viewState.hideLoading()
             }, { e ->
                 e.printStackTrace()
@@ -84,32 +82,9 @@ class VacanciesPresenter : MvpPresenter<VacanciesView>(), IVacanciesPresenter {
         router.exit()
     }
 
-    inner class VacanciesListPresenter : IVacanciesListPresenter {
-        override val items = mutableListOf<VacancyShort>()
-
-        override fun bind(item: IVacancyListItem, pos: Int) {
-            val vacancy = items[pos]
-
-            val snippet = getSnippetText(vacancy.snippet)
-
-            processVacancy(vacancy, item)
-
-            item.setSnippet(snippet)
-
-            if (vacancy.isFavorite) item.setStarFilled()
-            else item.setStarBorder()
-        }
-
-        override fun getItemsCount() = items.size
-
-        override fun resetItems(items: List<VacancyShort>) {
-            this.items.clear()
-            this.items.addAll(items)
-            viewState.updateList()
-        }
-
-        override lateinit var onStarClicked: (IVacancyListItem) -> Unit
-
-        override lateinit var onClick: (IVacancyListItem) -> Unit
+    private fun resetListItems(items: List<VacancyShort>) {
+        listPresenter.items.clear()
+        listPresenter.items.addAll(items)
+        viewState.updateList()
     }
 }
