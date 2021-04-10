@@ -7,4 +7,5 @@ import org.romeo.headhounterclient.base.list.BaseListFragmentView
 import org.romeo.headhounterclient.navigation.BackPressedListener
 
 @AddToEndSingle
-interface VacanciesSearchView : BaseListFragmentView, MessageShower, BackPressedListener, LoadingListener
+interface VacanciesSearchView : BaseListFragmentView, MessageShower, BackPressedListener,
+    LoadingListener
