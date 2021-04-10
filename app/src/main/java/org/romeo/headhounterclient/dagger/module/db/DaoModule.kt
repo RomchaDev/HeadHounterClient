@@ -13,4 +13,7 @@ class DaoModule {
 
     @Provides
     fun vacancyShortDao(db: HeadHaunterDb) = db.vacanciesShortDao
+
+    @Provides
+    fun filtersRepo(db: HeadHaunterDb) = db.filtersDao
 }

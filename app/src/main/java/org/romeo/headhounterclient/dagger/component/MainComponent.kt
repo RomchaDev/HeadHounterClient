@@ -7,6 +7,7 @@ import org.romeo.headhounterclient.dagger.module.db.DbModule
 import org.romeo.headhounterclient.dagger.module.db.WorkerModule
 import org.romeo.headhounterclient.main.activity.MainActivity
 import org.romeo.headhounterclient.main.activity.MainPresenter
+import org.romeo.headhounterclient.main.fragments.filters.FiltersPresenter
 import org.romeo.headhounterclient.main.fragments.vacancies.favorites.VacanciesFavoritesPresenter
 import org.romeo.headhounterclient.main.fragments.vacancies.search.VacanciesSearchPresenter
 import org.romeo.headhounterclient.main.fragments.vacansy.VacancyFragment
@@ -24,7 +25,8 @@ import javax.inject.Singleton
         ImageModule::class,
         DbModule::class,
         DaoModule::class,
-        WorkerModule::class
+        WorkerModule::class,
+        LocationModule::class
     ]
 )
 @Singleton
@@ -35,6 +37,7 @@ interface MainComponent {
     fun inject(presenter: VacanciesSearchPresenter)
     fun inject(presenter: VacanciesFavoritesPresenter)
     fun inject(presenter: VacancyPresenter)
+    fun inject(presenter: FiltersPresenter)
 
     fun inject(fragment: VacancyFragment)
 }

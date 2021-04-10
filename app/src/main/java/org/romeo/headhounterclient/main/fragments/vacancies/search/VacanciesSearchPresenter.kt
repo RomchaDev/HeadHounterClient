@@ -8,11 +8,10 @@ import moxy.MvpPresenter
 import org.romeo.headhounterclient.dagger.module.MAIN_SCHEDULER_KEY
 import org.romeo.headhounterclient.main.fragments.vacancies.list.IVacanciesListPresenter
 import org.romeo.headhounterclient.main.fragments.vacancies.list.VacanciesListPresenter
+import org.romeo.headhounterclient.model.entity.filter.Filter
 import org.romeo.headhounterclient.model.entity.vacancy.vacancy_full.VacancyFull
 import org.romeo.headhounterclient.model.entity.vacancy.vacancy_short.VacancyShort
-import org.romeo.headhounterclient.model.repo.IFavoritesRepo
-import org.romeo.headhounterclient.model.repo.IFullVacanciesRepo
-import org.romeo.headhounterclient.model.repo.IShortVacanciesRepo
+import org.romeo.headhounterclient.model.repo.*
 import org.romeo.headhounterclient.navigation.screens.IScreens
 import javax.inject.Inject
 import javax.inject.Named
@@ -37,6 +36,12 @@ class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacancies
 
     @Inject
     lateinit var favoritesRepo: IFavoritesRepo
+
+    @Inject
+    lateinit var filtersRepo: IFiltersRepo
+
+    @Inject
+    lateinit var locationRepo: ILocationRepo
 
     override val listPresenter: IVacanciesListPresenter =
         VacanciesListPresenter().apply {
@@ -92,12 +97,43 @@ class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacancies
 
     override fun onFirstViewAttach() {
         viewState.initList()
+        initFilter()
+    }
+
+    private fun initFilter() {
+        filtersRepo.getFilter().subscribe({ filter ->
+            filter ?: viewState.requestLocationPermission()
+        }, {
+            viewState.requestLocationPermission()
+        })
+    }
+
+    override fun onPermissionsGranted() {
+        locationRepo.getUserCountry().flatMapCompletable { location ->
+            location?.let {
+                filtersRepo.replaceFilter(Filter(location))
+            }
+        }.doOnError { e ->
+            viewState.showMessage(e.message)
+        }.subscribe()
+    }
+
+    override fun onPermissionsDenied() {
+        viewState.showMessage("This app won't work until you grant the location permission")
+        viewState.requestLocationPermission()
     }
 
     override fun onSearchPressed(searchText: String): Boolean {
         viewState.showLoading()
-        shortVacanciesRepo.getVacanciesSingleBySearch(searchText)
-            .observeOn(mainScheduler)
+        filtersRepo.getFilter()
+            .flatMap { filter ->
+                val requestText = filter?.let {
+                    "$searchText ${filter.location}"
+                } ?: searchText
+
+                shortVacanciesRepo.getVacanciesSingleBySearch(requestText)
+
+            }.observeOn(mainScheduler)
             .subscribe({ list ->
                 resetListItems(list)
                 viewState.hideLoading()
@@ -106,6 +142,7 @@ class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacancies
                 viewState.showMessage(e.message)
                 viewState.hideLoading()
             })
+
         return true
     }
 
@@ -125,5 +162,10 @@ class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacancies
         listPresenter.items.clear()
         listPresenter.items.addAll(items)
         viewState.updateList()
+    }
+
+    override fun onFiltersPressed(): Boolean {
+        router.navigateTo(screens.getFiltersScreen())
+        return true
     }
 }

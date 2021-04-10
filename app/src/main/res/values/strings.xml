@@ -4,4 +4,7 @@
     <string name="apply">Apply</string>
     <string name="back">Back</string>
     <string name="favorites">favorites</string>
+    <string name="location">Location:</string>
+    <string name="enter_desired_location">Enter desired location</string>
+    <string name="filters">Filters</string>
 </resources>

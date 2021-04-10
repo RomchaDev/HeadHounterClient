@@ -2,12 +2,10 @@ package org.romeo.headhounterclient.dagger.module.db
 
 import dagger.Module
 import dagger.Provides
+import org.romeo.headhounterclient.model.room.dao.FiltersDao
 import org.romeo.headhounterclient.model.room.dao.VacanciesFullDao
 import org.romeo.headhounterclient.model.room.dao.VacanciesShortDao
-import org.romeo.headhounterclient.model.room.db_workers.IVacanciesFullDbWorker
-import org.romeo.headhounterclient.model.room.db_workers.IVacanciesShortDbWorker
-import org.romeo.headhounterclient.model.room.db_workers.VacanciesFullDbWorker
-import org.romeo.headhounterclient.model.room.db_workers.VacanciesShortDbWorker
+import org.romeo.headhounterclient.model.room.db_workers.*
 
 @Module
 class WorkerModule {
@@ -19,4 +17,8 @@ class WorkerModule {
     @Provides
     fun fullWorker(dao: VacanciesFullDao): IVacanciesFullDbWorker =
         VacanciesFullDbWorker(dao)
+
+    @Provides
+    fun favoritesWorker(dao: FiltersDao): IFiltersDbWorker =
+        FiltersDbWorker(dao)
 }

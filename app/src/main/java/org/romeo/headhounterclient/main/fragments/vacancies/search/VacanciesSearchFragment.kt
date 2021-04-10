@@ -10,12 +10,13 @@ import moxy.ktx.moxyPresenter
 import org.romeo.headhounterclient.R
 import org.romeo.headhounterclient.base.fragment.BaseFragment
 import org.romeo.headhounterclient.databinding.FragmentVacanciesSearchBinding
+import org.romeo.headhounterclient.main.fragments.location.location_permission_requester.LocationRequestFragment
 import org.romeo.headhounterclient.main.fragments.vacancies.list.VacanciesListAdapter
 import org.romeo.headhounterclient.navigation.App
 
 
 class VacanciesSearchFragment :
-    BaseFragment<FragmentVacanciesSearchBinding, IVacanciesSearchPresenter>(),
+    LocationRequestFragment<FragmentVacanciesSearchBinding, IVacanciesSearchPresenter>(),
     VacanciesSearchView {
 
     override var binding: FragmentVacanciesSearchBinding? = null
@@ -52,6 +53,8 @@ class VacanciesSearchFragment :
                     R.id.item_favorites ->
                         presenter.onFavoritesPressed()
 
+                    R.id.item_filters ->
+                        presenter.onFiltersPressed()
                     else -> false
                 }
             }
