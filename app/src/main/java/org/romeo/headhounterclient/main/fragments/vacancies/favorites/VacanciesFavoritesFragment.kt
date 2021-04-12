@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.ktx.moxyPresenter
+import org.romeo.headhounterclient.R
 import org.romeo.headhounterclient.base.fragment.BaseFragment
 import org.romeo.headhounterclient.databinding.FragmentVacanciesFavoritesBinding
 import org.romeo.headhounterclient.main.fragments.vacancies.list.VacanciesListAdapter
@@ -39,6 +40,21 @@ class VacanciesFavoritesFragment :
             .apply { binding = this }
             .root
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding?.apply {
+            toolbar.inflateMenu(R.menu.back_arrow_menu)
+            toolbar.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.item_back -> {
+                        presenter.onBackPressed()
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }
+    }
 
     override fun initList() {
         val rv = binding!!.recyclerView
