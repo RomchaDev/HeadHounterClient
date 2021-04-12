@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import moxy.ktx.moxyPresenter
 import org.romeo.headhounterclient.databinding.FragmentFiltersBinding
-import org.romeo.headhounterclient.main.fragments.location.location_permission_requester.LocationRequestFragment
+import org.romeo.headhounterclient.main.fragments.location.location_requester.LocationRequestFragment
 import org.romeo.headhounterclient.navigation.App
 
 class FiltersFragment :

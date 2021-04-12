@@ -1,6 +1,6 @@
 package org.romeo.headhounterclient.main.fragments.vacancies.search
 
-import org.romeo.headhounterclient.main.fragments.location.location_permission_requester.LocationRequestPresenter
+import org.romeo.headhounterclient.main.fragments.location.location_requester.LocationRequestPresenter
 import org.romeo.headhounterclient.main.fragments.vacancies.AbstractVacanciesPresenter
 import org.romeo.headhounterclient.navigation.BackPressedListener
 

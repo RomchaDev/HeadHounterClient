@@ -1,4 +1,4 @@
-package org.romeo.headhounterclient.main.fragments.location.location_permission_requester
+package org.romeo.headhounterclient.main.fragments.location.location_requester
 
 import org.romeo.headhounterclient.base.presenter.IFragmentPresenter
 

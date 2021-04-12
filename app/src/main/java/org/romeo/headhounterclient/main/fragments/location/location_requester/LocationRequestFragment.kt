@@ -1,4 +1,4 @@
-package org.romeo.headhounterclient.main.fragments.location.location_permission_requester
+package org.romeo.headhounterclient.main.fragments.location.location_requester
 
 import android.Manifest
 import android.content.pm.PackageManager
