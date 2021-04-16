@@ -113,9 +113,12 @@ class VacanciesSearchPresenter : MvpPresenter<VacanciesSearchView>(), IVacancies
             location?.let {
                 filtersRepo.replaceFilter(Filter(location))
             }
-        }.doOnError { e ->
-            viewState.showMessage(e.message)
-        }.subscribe()
+        }.observeOn(mainScheduler)
+            .subscribe({
+                viewState.showMessage("Success")
+            }, {
+                viewState.showMessage(it.message)
+            })
     }
 
     override fun onPermissionsDenied() {
